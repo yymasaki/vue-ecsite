@@ -1,9 +1,13 @@
+<script setup>
+import HeaderMain from './components/HeaderMain.vue';
+import FooterMain from './components/FooterMain.vue';
+
+</script>
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+  <header-main></header-main>
   <router-view/>
+  <footer-main></footer-main>
 </template>
 
 <style>
