@@ -52,7 +52,7 @@ function login() {
 
       <div class="row">
         <div class="text-center signup-message">
-          <a href="register_user.html" th:href="@{/toSignup}">ユーザ登録はこちら</a>
+          <router-link to="/toSignup">ユーザ登録はこちら</router-link>
         </div>
       </div>
     </div>
