@@ -1,3 +1,14 @@
+<script setup>
+import router from '@/router';
+import store from '@/store';
+
+function logout() {
+  console.log('logout');
+  store.dispatch('logout');
+  router.push({ name: 'itemList'});
+}
+</script>
+
 <template>
    <header>
     <div class="header_main">
@@ -34,37 +45,28 @@
         <nav>
           <ul>
             <li>
-              <router-link to="/toLogin" th:href="@{/toLogin}">
+              <router-link v-if="store.getters.isLoggedIn === false" to="/toLogin">
                 <i class="bi bi-person-circle"></i>
                 ログイン
               </router-link>
-              <span th:if="${session.user != null}">
-                <span th:text="${session.user.name + ' さん'}"></span>
+              <span v-if="store.getters.isLoggedIn === true">
+                <span>{{ store.state.user.name }}さんでログイン中</span>
               </span>
             </li>
             <li>
-              <router-link to="" th:href="@{/cartInsert/show}">
+              <router-link to="">
                 <i class="bi bi-cart4"></i>
                 カート
               </router-link>
             </li>
             <li>
-              <router-link to="" th:href="@{#}">
-                <i class="#"></i>
-                お気に入り
-              </router-link>
-            </li>
-            <li>
-              <router-link to="" th:href="@{/history/show}">
+              <router-link to="">
                 <i class="bi bi-cart-check"></i>
                 購入履歴
               </router-link>
             </li>
             <li>
-              <router-link to="" th:href="@{/logout}">
-                <i class="bi bi-person-circle"></i>
-                ログアウト
-              </router-link>
+              <button v-if="store.getters.isLoggedIn === true" @click="logout">ログアウト</button>
             </li>
           </ul>
 
