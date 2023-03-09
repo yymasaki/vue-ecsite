@@ -1,8 +1,12 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
+import { useStore } from 'vuex';
 
 const itemList = ref([]);
+const store = useStore();
+console.log(store.getters.currentUser);
+console.log(store.getters.isLoggedIn);
 
 onMounted(() => {
   axios.get('http://localhost:8080/')
