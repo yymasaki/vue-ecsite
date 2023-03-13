@@ -14,9 +14,7 @@ const telephone = ref('');
 let msgOfNoMatchPassword = ref('')
 
 function signup() {
-    console.log(name);
-    const response = axios.post(`http://localhost:8080/signup?name=${name.value}&email=${email.value}&password=${password.value}&zipcode=${zipcode.value}&address=${address.value}&telephone=${telephone.value}`)
-    console.log(response.data);
+    axios.post(`http://localhost:8080/signup?name=${name.value}&email=${email.value}&password=${password.value}&zipcode=${zipcode.value}&address=${address.value}&telephone=${telephone.value}`)
     alert('ユーザー登録が完了しました');
     router.push({ name: 'login'});
 }
