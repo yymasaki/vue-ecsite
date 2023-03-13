@@ -19,11 +19,9 @@ export default createStore({
     }
   },
   mutations: {
-    setUser(state, user) {
+    login(state, user) {
+      state.isLoggedIn = true;
       state.user = user;
-    },
-    setIsLoggedIn(state, isLoggedIn) {
-      state.isLoggedIn = isLoggedIn;
     },
     clearUser(state) {
       state.user = null;
@@ -36,8 +34,9 @@ export default createStore({
         const response = await axios.post(`${rootUrl}/login?email=${email}&password=${password}`, { email, password });
         if(response.data !== '') {
           const user = response.data;
-          commit('setUser', user);
-          commit('setIsLoggedIn', true);
+          commit('login', user);
+          localStorage.setItem('user', JSON.stringify(user));
+          localStorage.setItem('isLoggedIn', true);
           router.push({ name: 'itemList'});
         } else {
           alert('メールアドレスもしくはパスワードが異なります');
@@ -47,9 +46,9 @@ export default createStore({
         throw new Error('ログインに失敗しました');
       }
     },
-    async logout({ commit }) {
+    logout({ commit }) {
       try {
-        await axios.post(`${rootUrl}/logout`);
+        localStorage.clear();
         commit('clearUser');
       } catch(error) {
         console.error(error);

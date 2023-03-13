@@ -6,6 +6,15 @@ import { useStore } from 'vuex';
 const shoppingcartList = ref([]);
 const store = useStore();
 
+function keepLogin() {
+  const user = JSON.parse(localStorage.getItem('user'))
+  const isLoggedIn = localStorage.getItem('isLoggedIn')
+  if (user && isLoggedIn) {
+    store.commit('login', user)
+  }
+}
+keepLogin();
+
 async function deleteCartItem(shoppingcartId) {
   await axios.post(`http://localhost:8080/cart/delete?shoppingcartId=${shoppingcartId}`)
   showShoppingcart();
@@ -27,7 +36,7 @@ onMounted(() => {
 <template>
   <h1 class="item-explain-title">ショッピングカート</h1>
 
-  <div v-if="shoppingcartList === ''">カートに商品がありません</div>
+  <div v-if="shoppingcartList.length === 0">カートに商品がありません</div>
   <div v-else>
       <form th:action="@{/cartInsert/update}" class="cart-items">
         <div v-for="shoppingcart in shoppingcartList" :key="shoppingcart.id">
