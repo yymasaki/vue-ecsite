@@ -8,8 +8,16 @@ import { useStore } from 'vuex';
 const item = ref([]);
 const route = useRoute();
 const selectedQuantity = ref('');
-
 const store = useStore();
+
+function keepLogin() {
+  const user = JSON.parse(localStorage.getItem('user'))
+  const isLoggedIn = localStorage.getItem('isLoggedIn')
+  if (user && isLoggedIn) {
+    store.commit('login', user)
+  }
+}
+keepLogin();
 
 async function addCart() {
     console.log(store.state.user.id)

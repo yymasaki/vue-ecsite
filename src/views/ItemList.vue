@@ -8,6 +8,15 @@ const store = useStore();
 console.log(store.getters.currentUser);
 console.log(store.getters.isLoggedIn);
 
+function keepLogin() {
+  const user = JSON.parse(localStorage.getItem('user'))
+  const isLoggedIn = localStorage.getItem('isLoggedIn')
+  if (user && isLoggedIn) {
+    store.commit('login', user)
+  }
+}
+keepLogin();
+
 onMounted(() => {
   axios.get('http://localhost:8080/')
     .then((response) => (itemList.value = response.data))
