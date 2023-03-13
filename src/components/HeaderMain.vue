@@ -54,7 +54,7 @@ function logout() {
               </span>
             </li>
             <li>
-              <router-link to="">
+              <router-link to="/cart">
                 <i class="bi bi-cart4"></i>
                 カート
               </router-link>

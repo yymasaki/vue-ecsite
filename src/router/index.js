@@ -3,6 +3,7 @@ import ItemList from '../views/ItemList.vue'
 import ItemDetail from '../views/ItemDetail.vue'
 import Login from '../views/LoginToy.vue'
 import SignupUser from '../views/SignupUser.vue'
+import ShoppingCartToy from '../views/ShoppingCartToy.vue'
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: '/toSignup',
     name: 'signup',
     component: SignupUser
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: ShoppingCartToy
   }
 ]
 
