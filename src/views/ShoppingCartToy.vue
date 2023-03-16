@@ -21,7 +21,7 @@ function toItemList() {
 }
 
 async function deleteCartItem(shoppingcartId) {
-  await axios.post(`http://localhost:8080/cart/delete?shoppingcartId=${shoppingcartId}`)
+  await axios.delete(`http://localhost:8080/cart/delete?shoppingcartId=${shoppingcartId}`)
   showShoppingcart();
 }
 
