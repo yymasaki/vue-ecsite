@@ -17,8 +17,8 @@ function keepLogin() {
 }
 keepLogin();
 
-onMounted(() => {
-  axios.get('http://localhost:8080/')
+onMounted(async () => {
+  await axios.get('http://localhost:8080/')
     .then((response) => (itemList.value = response.data))
     .catch((error) => console.log(error))
 });
@@ -55,7 +55,7 @@ onMounted(() => {
                 <router-link :to="`/showDetail/${item.id}`">
                   <p class="name">{{ item.name }}</p>
                 </router-link>
-                <!-- <span th:text="${#numbers.formatInteger(item.price,1,'COMMA')} + '円'" class="price">円</span> -->
+                <p>{{ item.price }}円</p>
               </div>
             </div>
           </div>

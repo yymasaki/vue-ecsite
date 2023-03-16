@@ -4,6 +4,8 @@ import ItemDetail from '../views/ItemDetail.vue'
 import Login from '../views/LoginToy.vue'
 import SignupUser from '../views/SignupUser.vue'
 import ShoppingCartToy from '../views/ShoppingCartToy.vue'
+import OrderConfirm from '../views/OrderConfirm.vue'
+import OrderComplete from '../views/OrderComplete.vue'
 
 const routes = [
   {
@@ -30,6 +32,16 @@ const routes = [
     path: '/cart',
     name: 'cart',
     component: ShoppingCartToy
+  },
+  {
+    path: '/orderConfirm',
+    name: 'orderConfirm',
+    component: OrderConfirm
+  },
+  {
+    path: '/orderComplete',
+    name: 'orderComplete',
+    component: OrderComplete
   }
 ]
 
