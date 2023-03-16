@@ -1,7 +1,7 @@
 <template>
     <footer>
         <div class="container">
-            <h1>あなたのtoyを見つけよう</h1>
+            <h4>あなたのtoyを見つけよう</h4>
             <small>(c) rakurakutoy.com</small>
         </div>
     </footer>

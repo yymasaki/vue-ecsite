@@ -25,8 +25,8 @@ async function addCart() {
     router.push({ name: 'cart' });
 }
 
-onMounted(() => {
-    axios.get('http://localhost:8080/showDetail/' + route.params.id)
+onMounted(async () => {
+    await axios.get('http://localhost:8080/showDetail/' + route.params.id)
         .then((response) => (item.value = response.data))
         .catch((error) => console.log(error))
 });
