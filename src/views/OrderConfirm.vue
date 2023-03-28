@@ -69,87 +69,109 @@ onMounted(async () => {
 </script>
 
 <template>
-    <h1>注文確認画面</h1>
-    <div v-for="shoppingcart in shoppingcartList" :key="shoppingcart.id">
-        <div class="item-pic">
-            <router-link :to="`/showDetail/${shoppingcart.itemId}`">
-                <img :src="require(`@/assets/img_toy/${shoppingcart.item.imagePath}`)" alt="商品画像" width="200" height="200">
-                <span>{{ shoppingcart.item.name }}</span>
-            </router-link>
-        </div>
-        <div>値段:{{ shoppingcart.item.price.toLocaleString() }}</div>
-        <div>数量:{{ shoppingcart.quantity }}</div>
-        <div>合計:{{ (shoppingcart.item.price * shoppingcart.quantity).toLocaleString() }}</div>
-        <br>
-        <div>ご注文合計金額:{{ totalPrice }}</div>
-    </div><br>
+    <div class="mx-auto max-w-screen-lg px-4 md:px-8">
+    <h2 class="text-2xl font-bold text-center text-gray-800 lg:text-3xl mb-6">注文確認画面</h2>
 
-    <form @submit.prevent="registerOrder">
-        <table>
-            <tr>
-                <td>
-                    <div>名前</div>
-                </td>
-                <td>
-                    <input type="text" v-model="name" placeholder="山田太郎">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>メールアドレス</div>
-                </td>
-                <td>
-                    <input type="email" v-model="email" placeholder="test@example.com">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>郵便番号(ハイフンなし)</div>
-                </td>
-                <td>
-                    <input type="text" v-model="zipcode" placeholder="1111111">
-                    <button type="button" @click="searchAddress()">住所検索</button>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>住所</div>
-                </td>
-                <td>
-                    <input type="text" v-model="address" placeholder="〇〇県〇〇市〇〇町1-1-1">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>電話番号</div>
-                </td>
-                <td>
-                    <input type="tel" v-model="telephone" placeholder="090-1111-2222">
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <div>配達日</div>
-                </td>
-                <td>
-                    <label>希望配達日を選択してください
-                    <input type="date" id="orderDate" 
-                    v-model="orderDate" :min="new Date().toISOString().split('T')[0]"
-                    onkeydown="return false"></label>
-                </td>
-                <p>{{ orderDate }}</p>
-            </tr>
-            <tr>
-                <td>
-                    <div>お支払い方法</div>
-                </td>
-                <td>
-                    <label><input type="radio" name="payment" checked="checked" value=1 v-model="payment">代金引換</label>
-                    <label><input type="radio" name="payment" value=2 v-model="payment">クレジットカード</label>
-                    <p>{{ payment }}</p>
-                </td>
-            </tr>
-        </table>
-        <button type="submit">注文する</button>
-    </form>
+    <div>
+      <div class="mb-6 flex flex-col gap-4 sm:mb-8 md:gap-6">
+        <div>
+          <form class="cart-items">
+            <div v-for="shoppingcart in shoppingcartList" :key="shoppingcart.id" class="mb-6 flex flex-wrap gap-x-4 overflow-hidden rounded-lg border sm:gap-y-4 lg:gap-6">
+                <div>
+                    <router-link :to="`/showDetail/${shoppingcart.itemId}`" class="group relative block overflow-hidden h-48 w-32 sm:h-56 sm:w-40">
+                        <img :src="require(`@/assets/img_toy/${shoppingcart.item.imagePath}`)" alt="商品画像"
+                          class="h-full w-full object-contain object-center transition duration-200 group-hover:scale-110">
+                    </router-link>
+                </div>
+
+                <div class="flex flex-1 flex-col justify-between py-4">
+                  <div>
+                    <router-link :to="`/showDetail/${shoppingcart.itemId}`" class="mb-1 inline-block text-lg font-bold text-gray-800 transition duration-100 hover:text-gray-500 lg:text-xl">
+                      {{ shoppingcart.item.name }}
+                    </router-link>
+                  </div>
+                  <div>
+                    <span class="mb-1 block font-bold text-gray-800 md:text-lg">{{ shoppingcart.item.price.toLocaleString() }}円</span>
+                  </div>
+                </div>
+
+                <div class="flex w-full justify-between border-t p-4 sm:w-auto sm:border-none sm:pl-0 lg:p-6 lg:pl-0">
+                  <div class="flex flex-col items-start gap-2">
+                    <button type="submit" @click="deleteCartItem(shoppingcart.id)" class="select-none text-sm font-semibold text-indigo-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">
+                      削除
+                    </button>
+                  </div>
+                  <div class="ml-4 pt-3 md:ml-8 md:pt-2 lg:ml-16">
+                    <span class="block font-bold text-gray-800 md:text-lg">数量:{{ shoppingcart.quantity }}</span>
+                  </div>
+                  <div class="ml-4 pt-3 md:ml-8 md:pt-2 lg:ml-16">
+                    <span class="block font-bold text-gray-800 md:text-lg">{{ (shoppingcart.item.price * shoppingcart.quantity).toLocaleString() }}円</span>
+                  </div>
+                </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-end gap-4">
+        <div class="w-full rounded-lg bg-gray-100 p-4 sm:max-w-xs">
+          <span class="text-lg font-bold">合計</span>
+          <span class="flex flex-col items-end">
+            <span class="text-lg font-bold">{{ totalPrice }}円</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+      <form method="post" @submit.prevent="registerOrder" class="mx-auto grid max-w-screen-md gap-4 sm:grid-cols-2">
+        <div>
+          <label for="name" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">名前</label>
+          <input id="name" name="name" type="text" placeholder="山田 太郎" v-model="name" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="email" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">メールアドレス</label>
+          <input id="email" name="email" type="email" placeholder="abc@def.com" v-model="email" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="zipcode" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">郵便番号(ハイフンなし)</label>
+          <button type="button" @click="searchAddress" class="rounded-lg bg-slate-400 px-4 py-2 text-center text-sm font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-slate-500 focus-visible:ring active:bg-slate-600 md:text-base">住所検索</button>
+          <input id="zipcode" name="zipcode" type="text" placeholder="111-1111" v-model="zipcode" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="address" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">住所</label>
+          <input id="address" name="address" placeholder="〇〇県〇〇市〇〇町1-1-1" v-model="address" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="telephone" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">電話番号</label>
+          <input id="telephone" name="telephone" placeholder="080-1111-2222" v-model="telephone" class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+        </div>
+
+        <div class="sm:col-span-2">
+          <label for="orderDate" class="mb-2 inline-block text-sm text-gray-800 sm:text-base">配達日</label>
+          <input id="orderDate" name="orderDate" type="date" v-model="orderDate" :min="new Date().toISOString().split('T')[0]" onkeydown="return false" 
+            class="w-full rounded border bg-gray-50 px-3 py-2 text-gray-800 outline-none ring-indigo-300 transition duration-100 focus:ring" />
+        </div>
+
+        <div class="sm:col-span-2">
+          <div lass="mb-2 inline-block text-sm text-gray-800 sm:text-base">お支払い方法</div>
+          <label><input type="radio" name="payment" checked="checked" value=1 v-model="payment">代金引換</label>
+          <label><input type="radio" name="payment" value=2 v-model="payment" class="ml-4">クレジットカード</label>
+        </div>
+
+        <div class="flex items-center justify-between sm:col-span-2">
+          <button type="submit" class="inline-block rounded-lg bg-amber-500 px-8 py-3 text-center text-sm font-semibold
+           text-white outline-none ring-indigo-300 transition duration-100 hover:bg-amber-600 focus-visible:ring active:bg-amber-700 md:text-base">
+           注文する
+        </button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>

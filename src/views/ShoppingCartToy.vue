@@ -47,33 +47,66 @@ onMounted(async () => {
 </script>
 
 <template>
-  <h1 class="item-explain-title">ショッピングカート</h1>
+  <div class="mx-auto max-w-screen-lg px-4 md:px-8">
+    <h2 class="text-2xl font-bold text-center text-gray-800 lg:text-3xl mb-6">ショッピングカート</h2>
 
-  <div v-if="shoppingcartList.length === 0">カートに商品がありません</div>
-  <div v-else>
-      <form class="cart-items">
-        <div v-for="shoppingcart in shoppingcartList" :key="shoppingcart.id">
-            <div class="item-pic">
-                <router-link :to="`/showDetail/${shoppingcart.itemId}`">
-                    <img :src="require(`@/assets/img_toy/${shoppingcart.item.imagePath}`)" alt="商品画像" width="200" height="200">
-                    <span>{{ shoppingcart.item.name }}</span>
-                </router-link>
+    <div v-if="shoppingcartList.length === 0">カートに商品がありません</div>
+    <div v-else>
+      <div class="mb-6 flex flex-col gap-4 sm:mb-8 md:gap-6">
+        <div>
+          <form class="cart-items">
+            <div v-for="shoppingcart in shoppingcartList" :key="shoppingcart.id" class="mb-6 flex flex-wrap gap-x-4 overflow-hidden rounded-lg border sm:gap-y-4 lg:gap-6">
+                <div>
+                    <router-link :to="`/showDetail/${shoppingcart.itemId}`" class="group relative block overflow-hidden h-48 w-32 sm:h-56 sm:w-40">
+                        <img :src="require(`@/assets/img_toy/${shoppingcart.item.imagePath}`)" alt="商品画像"
+                          class="h-full w-full object-contain object-center transition duration-200 group-hover:scale-110">
+                    </router-link>
+                </div>
+
+                <div class="flex flex-1 flex-col justify-between py-4">
+                  <div>
+                    <router-link :to="`/showDetail/${shoppingcart.itemId}`" class="mb-1 inline-block text-lg font-bold text-gray-800 transition duration-100 hover:text-gray-500 lg:text-xl">
+                      {{ shoppingcart.item.name }}
+                    </router-link>
+                  </div>
+                  <div>
+                    <span class="mb-1 block font-bold text-gray-800 md:text-lg">{{ shoppingcart.item.price.toLocaleString() }}円</span>
+                  </div>
+                </div>
+
+                <div class="flex w-full justify-between border-t p-4 sm:w-auto sm:border-none sm:pl-0 lg:p-6 lg:pl-0">
+                  <div class="flex flex-col items-start gap-2">
+                    <button type="submit" @click="deleteCartItem(shoppingcart.id)" class="select-none text-sm font-semibold text-indigo-500 transition duration-100 hover:text-indigo-600 active:text-indigo-700">
+                      削除
+                    </button>
+                  </div>
+                  <div class="ml-4 pt-3 md:ml-8 md:pt-2 lg:ml-16">
+                    <span class="block font-bold text-gray-800 md:text-lg">数量:{{ shoppingcart.quantity }}</span>
+                  </div>
+                  <div class="ml-4 pt-3 md:ml-8 md:pt-2 lg:ml-16">
+                    <span class="block font-bold text-gray-800 md:text-lg">{{ (shoppingcart.item.price * shoppingcart.quantity).toLocaleString() }}円</span>
+                  </div>
+                </div>
             </div>
-            <div>値段:{{ shoppingcart.item.price.toLocaleString() }}</div>
-            <div>数量:{{ shoppingcart.quantity }}</div>
-            <div>合計:{{ (shoppingcart.item.price * shoppingcart.quantity).toLocaleString() }}</div>
-            <div>
-                <button type="submit" class="btn btn-primary" @click="deleteCartItem(shoppingcart.id)">削除</button>
-            </div>
+          </form>
         </div>
-      </form>
-      <div class="form-group text-center cart-price">
-        <p id="total-price">合計金額:{{ totalPrice }}円</p>
       </div>
 
-      <div class="form-group">
-        <button @click="toOrderConfirm">注文に進む</button>
-        <button @click="toItemList">もう少し買い物を続ける</button>
+      <div class="flex flex-col items-end gap-4">
+        <div class="w-full rounded-lg bg-gray-100 p-4 sm:max-w-xs">
+          <span class="text-lg font-bold">合計</span>
+          <span class="flex flex-col items-end">
+            <span class="text-lg font-bold">{{ totalPrice }}円</span>
+          </span>
+        </div>
+        <button @click="toOrderConfirm" class="block rounded-lg bg-amber-500 px-8 py-3 text-center text-sm font-semibold text-white outline-none ring-gray-300 transition duration-100 hover:bg-amber-600 focus-visible:ring active:bg-amber-700 md:text-base">
+          注文に進む
+        </button>
+        <button @click="toItemList" class="inline-block rounded-lg bg-indigo-500 px-8 py-3 text-center text-sm 
+          font-semibold text-white outline-none ring-indigo-300 transition duration-100 hover:bg-indigo-600 focus-visible:ring active:bg-indigo-700 md:text-base">
+          もう少し買い物を続ける
+        </button>
       </div>
+    </div>
   </div>
 </template>

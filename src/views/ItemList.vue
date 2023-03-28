@@ -26,41 +26,31 @@ onMounted(async () => {
 </script>
 
 <template>
-    <body>
-    <div id="item-all">
-      <div class="new-container">
-        <!-- <div class="search-message">
-          <p th:if="${searchName != null}" th:text="「 + ${searchName} + 」の検索結果"></p>
-          <p th:if="${session.searchName != null}" th:text="「 + ${session.searchName} + 」の検索結果"></p>
-          <p th:if="${notApplicableMessage != null}" th:text="${notApplicableMessage}" style="color : red"></p>
-          <p th:if="${session.count != null}" th:text="${'検索件数：' + session.count + '件'}"></p>
-        </div> -->
-  
-        <!-- ページネーション
-        <span th:insert="item.fragment::frag_pagenation"></span> -->
-  
-        <main>
-          <div class="row">
-            <div class="itemlist col-md-4 col-sm-6 animate" v-for="item in itemList" :key="item.id">
-              <div class="item-image">
-                <router-link :to="`/showDetail/${item.id}`">
-                  <img :src="require(`@/assets/img_toy/${item.imagePath}`)" width="200" height="200">
-                </router-link>
-                <!-- <router-link :to="{ name: 'itemDetail', params: { id: String(item.id)}}">
-                    <img :src="require(`@/assets/img_toy/${item.imagePath}`)"
-                    width="200" height="200">
-                </router-link> -->
-              </div>
-              <div class="item-detail">
-                <router-link :to="`/showDetail/${item.id}`">
-                  <p class="name">{{ item.name }}</p>
-                </router-link>
-                <p>{{ item.price }}円</p>
+  <div class="bg-white py-6 sm:py-8 lg:py-12">
+    <div class="mx-auto max-w-screen-2xl px-4 md:px-8">
+      <div class="mb-6 flex items-end justify-between gap-4">
+        <h2 class="text-2xl font-bold text-center text-gray-800 lg:text-3xl">商品一覧</h2>
+        <!-- <a href="#" class="inline-block rounded-lg border bg-white px-4 py-2 text-center text-sm font-semibold text-gray-500 outline-none ring-indigo-300 transition duration-100 hover:bg-gray-100 focus-visible:ring active:bg-gray-200 md:px-8 md:py-3 md:text-base">Show more</a> -->
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <div v-for="item in itemList" :key="item.id">
+          <!-- product - start -->
+          <div>
+            <router-link :to="`/showDetail/${item.id}`" class="group relative mb-2 block h-60 overflow-hidden rounded-lg lg:mb-3">
+              <img :src="require(`@/assets/img_toy/${item.imagePath}`)" loading="lazy" alt="Photo by Galina N" class="h-full w-full object-contain object-center transition duration-200 group-hover:scale-110" />
+            </router-link>
+
+            <div>
+              <router-link :to="`/showDetail/${item.id}`" class="hover:gray-800 mb-1 text-gray-500 transition duration-100 lg:text-lg">{{ item.name }}</router-link>
+              <div class="flex items-end gap-2">
+                <span class="font-bold text-gray-800 lg:text-lg">{{ item.price }}円</span>
               </div>
             </div>
           </div>
-        </main>
+          <!-- product - end -->
+        </div>
       </div>
     </div>
-  </body>
+  </div>
 </template>
